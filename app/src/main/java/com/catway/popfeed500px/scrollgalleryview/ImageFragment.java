@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.catway.popfeed500px.R;
+import com.catway.popfeed500px.models.Photo;
 import com.catway.popfeed500px.photoview.PhotoViewAttacher;
 import com.catway.popfeed500px.scrollgalleryview.loader.MediaLoader;
 
@@ -19,13 +20,14 @@ import com.catway.popfeed500px.scrollgalleryview.loader.MediaLoader;
 public class ImageFragment extends Fragment {
 
     private MediaInfo mMediaInfo;
-
+    private Photo mPhoto;
     private HackyViewPager viewPager;
     private ImageView backgroundImage;
     private PhotoViewAttacher photoViewAttacher;
     private TextView photoDescription;
     private TextView photoCameraName;
-    public void setMediaInfo(MediaInfo mediaInfo) {
+    public void setMediaInfo(Photo photo, MediaInfo mediaInfo) {
+        mPhoto = photo;
         mMediaInfo = mediaInfo;
     }
 
@@ -35,8 +37,8 @@ public class ImageFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.image_fragment, container, false);
         backgroundImage = (ImageView) rootView.findViewById(R.id.backgroundImage);
         viewPager = (HackyViewPager) getActivity().findViewById(R.id.viewPager);
-        photoDescription = (TextView) getActivity().findViewById(R.id.photo_description);
-        photoCameraName = (TextView) getActivity().findViewById(R.id.photo_camera_name);
+        photoDescription = (TextView) rootView.findViewById(R.id.photo_description);
+        photoCameraName = (TextView) rootView.findViewById(R.id.photo_camera_name);
 
         if (savedInstanceState != null) {
             boolean isLocked = savedInstanceState.getBoolean(Constants.IS_LOCKED, false);
@@ -44,8 +46,11 @@ public class ImageFragment extends Fragment {
             backgroundImage.setImageBitmap((Bitmap) savedInstanceState.getParcelable(Constants.IMAGE));
             createViewAttacher(savedInstanceState);
         }
+        photoDescription.setText(mPhoto.mName + " (c) " + mPhoto.getUserName());
+        photoCameraName.setText(mPhoto.mCamera != null ? mPhoto.mCamera : "");
 
         loadImageToView();
+
 
         return rootView;
     }

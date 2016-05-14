@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.catway.popfeed500px.R;
+import com.catway.popfeed500px.models.PageHolder;
 import com.catway.popfeed500px.scrollgalleryview.loader.MediaLoader;
 
 import java.util.ArrayList;
@@ -58,6 +59,7 @@ public class ScrollGalleryView extends LinearLayout {
             viewPager.setCurrentItem((int) v.getTag(), true);
         }
     };
+    private PageHolder mPageHolder;
 
     public ScrollGalleryView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -203,9 +205,14 @@ public class ScrollGalleryView extends LinearLayout {
         return ThumbnailUtils.extractThumbnail(image, thumbnailSize, thumbnailSize);
     }
 
+    public void setPageHolder(PageHolder pageHolder)
+    {
+        mPageHolder = pageHolder;
+    }
+
     private void initializeViewPager() {
         viewPager = (HackyViewPager) findViewById(R.id.viewPager);
-        pagerAdapter = new ScreenSlidePagerAdapter(fragmentManager, mListOfMedia, zoomEnabled);
+        pagerAdapter = new ScreenSlidePagerAdapter(fragmentManager, mListOfMedia, mPageHolder, zoomEnabled);
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerChangeListener);
     }

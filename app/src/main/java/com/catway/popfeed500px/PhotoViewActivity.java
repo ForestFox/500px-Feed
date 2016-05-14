@@ -36,6 +36,7 @@ public class PhotoViewActivity extends AppCompatActivity {
         for (String url : images) infos.add(MediaInfo.mediaLoader(new PicassoImageLoader(url)));
 
         scrollGalleryView = (ScrollGalleryView) findViewById(R.id.scroll_gallery_view);
+        scrollGalleryView.setPageHolder(pageHolder);
         scrollGalleryView
                 .setThumbnailSize(100)
                 .setZoom(true)
