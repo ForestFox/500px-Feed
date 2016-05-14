@@ -9,7 +9,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashMap;
 
 public class PageHolder {
-    @JsonIgnore
+
+    @JsonProperty("photo_position_selected")
+    public int mPhotoPositionSelected;
+    @JsonProperty("current_page")
     private int mCurrentPage = 1;
     @JsonIgnore
     private int mMinPage = 1;
@@ -31,7 +34,6 @@ public class PageHolder {
     public Page loadPageWithNumber(Context c, int pageNumber) {
         Page newPage = PageLoader.loadPageFromResponse(PageLoader.loadPageTestJSONFromAsset(c, "page1.json"));
         mPages.put(newPage.mPageNumber, newPage);
-        mPages.put(newPage.mPageNumber + 1, newPage);
         return newPage;
     }
 
@@ -57,6 +59,7 @@ public class PageHolder {
         loadPageWithNumber(c,mCurrentPage);
     }
 
+    @JsonIgnore
     public Page getCurrentPage()
     {
         return mPages.get(mCurrentPage);

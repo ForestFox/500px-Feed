@@ -1,6 +1,8 @@
 package com.catway.popfeed500px.controllers;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.catway.popfeed500px.PhotoViewActivity;
 import com.catway.popfeed500px.R;
 import com.catway.popfeed500px.models.PageHolder;
 import com.catway.popfeed500px.models.Photo;
@@ -18,14 +21,14 @@ public class GridAdapter extends BaseAdapter
 {
     private PageHolder pageHolder;
     private LayoutInflater mInflater;
-    private Context c;
+    private Activity activity;
     private Picasso picasso;
-    public GridAdapter(Context context, PageHolder pageHolder)
+    public GridAdapter(Activity activity, PageHolder pageHolder)
     {
         this.pageHolder = pageHolder;
-        c = context;
-        mInflater = LayoutInflater.from(context);
-        picasso = Picasso.with(c);
+        this.activity = activity;
+        mInflater = LayoutInflater.from(this.activity);
+        picasso = Picasso.with(this.activity);
         picasso.setIndicatorsEnabled(true);
     }
 
@@ -35,41 +38,48 @@ public class GridAdapter extends BaseAdapter
     }
 
     @Override
-    public Object getItem(int i)
+    public Object getItem(int position)
     {
-        return pageHolder.getCurrentPage().getPhotoWithIndex(i);
+        return pageHolder.getCurrentPage().getPhotoWithIndex(position);
     }
 
     @Override
-    public long getItemId(int i)
+    public long getItemId(int position)
     {
-        return pageHolder.getCurrentPage().getPhotoPosition((Photo) getItem(i));
+        return pageHolder.getCurrentPage().getPhotoPosition((Photo) getItem(position));
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup)
+    public View getView(final int position, View view, ViewGroup viewGroup)
     {
-        View v = view;
-        ImageView picture;
+        ImageView imageView;
         TextView name;
 
-        if(v == null)
+        if(view == null)
         {
-            v = mInflater.inflate(R.layout.item_grid_view, viewGroup, false);
-            v.setTag(R.id.picture, v.findViewById(R.id.picture));
-            v.setTag(R.id.text, v.findViewById(R.id.text));
+            view = mInflater.inflate(R.layout.item_grid_view, viewGroup, false);
+            view.setTag(R.id.picture, view.findViewById(R.id.picture));
+            view.setTag(R.id.text, view.findViewById(R.id.text));
         }
+        imageView = (ImageView)view.getTag(R.id.picture);
+        name = (TextView)view.getTag(R.id.text);
 
-        picture = (ImageView)v.getTag(R.id.picture);
-        name = (TextView)v.getTag(R.id.text);
+        Photo photo = (Photo) getItem(position);
 
-        Photo photo = (Photo) getItem(i);
+        picasso.load(photo.mImageUrl).placeholder(R.drawable.placeholder).error(R.drawable.error).into(imageView);
 
-        picasso.load(photo.mImageUrl)
-        .placeholder(R.drawable.placeholder)
-        .error(R.drawable.error)
-                .into(picture);
-        return v;
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pageHolder.mPhotoPositionSelected = position;
+                Log.d("GRIDADAPTER", "Current position = " + String.valueOf(pageHolder.mPhotoPositionSelected));
+                PageHolderLoader.savePageHolderToJSON(activity, pageHolder);
+                Intent intent = new Intent(activity, PhotoViewActivity.class);
+                activity.startActivity(intent);
+            }
+        });
+
+        return view;
     }
 
 }

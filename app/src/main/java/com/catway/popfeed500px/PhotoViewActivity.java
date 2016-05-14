@@ -4,33 +4,30 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.GridView;
+import android.widget.TextView;
 
-import com.catway.popfeed500px.controllers.GridAdapter;
+import com.catway.popfeed500px.controllers.PageHolderLoader;
 import com.catway.popfeed500px.models.PageHolder;
 
-public class FeedActivity extends AppCompatActivity {
+public class PhotoViewActivity extends AppCompatActivity {
+
+    TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed);
+        setContentView(R.layout.activity_photo_view);
 
+        tv = ((TextView) findViewById(R.id.textView));
 
-        PageHolder pageHolder = new PageHolder(getApplicationContext());
-        //PageHolderLoader.savePageHolderToJSON(getApplicationContext(), pageHolder);
-        //PageHolder savedPageHolder = PageHolderLoader.loadPageHolderFromJSON(getApplicationContext());
-
-        GridView gridView = (GridView) findViewById(R.id.grid_photo);
-        gridView.setAdapter(new GridAdapter(this, pageHolder));
-        gridView.setNumColumns(2);
-
+        PageHolder pageHolder = PageHolderLoader.loadPageHolderFromJSON(this);
+        tv.setText(String.valueOf(pageHolder.mPhotoPositionSelected));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_feed, menu);
+        getMenuInflater().inflate(R.menu.menu_photo_view, menu);
         return true;
     }
 
