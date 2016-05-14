@@ -6,6 +6,7 @@
     <string name="filename_pageholder">page_holder.json</string>
     <string name="title_activity_photo_view">PhotoViewActivity</string>
     <string name="extra_photo_send">photo_position</string>
+    <string name="loading">Loading</string>
 
 
 </resources>

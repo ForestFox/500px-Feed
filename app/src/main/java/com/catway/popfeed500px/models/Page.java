@@ -9,26 +9,36 @@ public class Page {
     @JsonProperty("current_page")
     int mPageNumber;
     @JsonProperty("photos")
-    private ArrayList<Photo> mImages = new ArrayList<>();
+    private ArrayList<Photo> mPhotos = new ArrayList<>();
 
     public Page(){}
 
     @JsonIgnore
     public int getImageCount()
     {
-        return mImages.size();
+        return mPhotos.size();
     }
 
     @JsonIgnore
     public Photo getPhotoWithIndex(int index)
     {
-        return mImages.get(index);
+        return mPhotos.get(index);
     }
 
     @JsonIgnore
     public long getPhotoPosition(Photo photo)
     {
-        return mImages.indexOf(photo);
+        return mPhotos.indexOf(photo);
+    }
+
+    public ArrayList<String> getUrlList()
+    {
+        ArrayList<String> urls = new ArrayList<>();
+        for (Photo p: mPhotos
+             ) {
+            urls.add(p.mImageUrl);
+        }
+        return urls;
     }
 
 }
