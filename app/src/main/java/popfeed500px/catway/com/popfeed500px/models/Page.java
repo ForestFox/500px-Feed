@@ -1,4 +1,4 @@
-package popfeed500px.catway.com.popfeed500px;
+package popfeed500px.catway.com.popfeed500px.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -11,7 +11,7 @@ public class Page {
     @JsonProperty("current_page")
     int mPageNumber;
     @JsonProperty("photos")
-    ArrayList<Photo> mImageIds = new ArrayList<>();
+    ArrayList<Photo> mImages = new ArrayList<>();
 
     public Page()
     {

@@ -10,6 +10,9 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import popfeed500px.catway.com.popfeed500px.controllers.PageHolderLoader;
+import popfeed500px.catway.com.popfeed500px.models.PageHolder;
+
 public class FeedActivity extends AppCompatActivity {
 
     @Override
@@ -36,8 +39,8 @@ public class FeedActivity extends AppCompatActivity {
 
 
         PageHolder pageHolder = new PageHolder(getApplicationContext());
-        //Page page = new Page(loadJSONFromAsset("page1.json"));
-
+        PageHolderLoader.savePageHolderToJSON(getApplicationContext(), pageHolder);
+        PageHolder savedPageHolder = PageHolderLoader.loadPageHolderFromJSON(getApplicationContext());
     }
 
     @Override

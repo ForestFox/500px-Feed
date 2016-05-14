@@ -1,5 +1,6 @@
-package popfeed500px.catway.com.popfeed500px;
+package popfeed500px.catway.com.popfeed500px.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Photo {
@@ -15,7 +16,8 @@ public class Photo {
     @JsonProperty("user")
     User mUser;
 
+    @JsonIgnore
     public String getUserName() {
-        return mUser.mUserName;
+        return mUser.mFullName;
     }
 }
