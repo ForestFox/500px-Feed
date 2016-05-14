@@ -1,4 +1,4 @@
-package popfeed500px.catway.com.popfeed500px;
+package com.catway.popfeed500px;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -6,12 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import popfeed500px.catway.com.popfeed500px.controllers.PageHolderLoader;
-import popfeed500px.catway.com.popfeed500px.models.PageHolder;
+import com.catway.popfeed500px.controllers.PageHolderLoader;
+import com.catway.popfeed500px.models.PageHolder;
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -19,6 +20,9 @@ public class FeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
+
+        GridLayout grid = (GridLayout) findViewById(R.id.grid_photo);
+        grid.setColumnCount(3);
 
         Picasso.Listener listener = new Picasso.Listener() {
             @Override
@@ -34,13 +38,23 @@ public class FeedActivity extends AppCompatActivity {
                 picasso.load("https://drscdn.500px.org/photo/153317621/q%3D50_w%3D140_h%3D140/87f074ec787f1f855a798a2ec4363851?v=4")
                 .placeholder(R.drawable.placeholder)
                 .error(R.drawable.error)
-                .into((ImageView) findViewById(R.id.imageView));
-
-
+                .into((ImageView) findViewById(R.id.imageView1));
+        picasso.load("https://drscdn.500px.org/photo/153317621/q%3D50_w%3D140_h%3D140/87f074ec787f1f855a798a2ec4363851?v=4")
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
+                .into((ImageView) findViewById(R.id.imageView2));
+        picasso.load("https://drscdn.500px.org/photo/153317621/q%3D50_w%3D140_h%3D140/87f074ec787f1f855a798a2ec4363851?v=4")
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error)
+                .into((ImageView) findViewById(R.id.imageView3));
 
         PageHolder pageHolder = new PageHolder(getApplicationContext());
         PageHolderLoader.savePageHolderToJSON(getApplicationContext(), pageHolder);
         PageHolder savedPageHolder = PageHolderLoader.loadPageHolderFromJSON(getApplicationContext());
+
+
+
+
     }
 
     @Override

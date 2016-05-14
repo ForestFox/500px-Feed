@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="popfeed500px.catway.com.popfeed500px" >
+    package="com.catway.popfeed500px" >
 
     
     <uses-permission android:name="android.permission.INTERNET"/>

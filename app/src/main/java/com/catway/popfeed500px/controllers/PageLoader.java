@@ -1,15 +1,14 @@
-package popfeed500px.catway.com.popfeed500px.controllers;
+package com.catway.popfeed500px.controllers;
 
 import android.content.Context;
 
+import com.catway.popfeed500px.models.Page;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import popfeed500px.catway.com.popfeed500px.models.Page;
 
 public class PageLoader {
     public static Page loadPageFromResponse(String jsonPageResponse) {

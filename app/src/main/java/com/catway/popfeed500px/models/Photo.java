@@ -1,4 +1,4 @@
-package popfeed500px.catway.com.popfeed500px.models;
+package com.catway.popfeed500px.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;

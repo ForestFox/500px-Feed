@@ -1,12 +1,11 @@
-package popfeed500px.catway.com.popfeed500px.models;
+package com.catway.popfeed500px.models;
 
 import android.content.Context;
 
+import com.catway.popfeed500px.controllers.PageLoader;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
-
-import popfeed500px.catway.com.popfeed500px.controllers.PageLoader;
 
 public class PageHolder {
     int mCurrentPage = 1;

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.2"
 
     defaultConfig {
-        applicationId "popfeed500px.catway.com.popfeed500px"
+        applicationId "com.catway.popfeed500px"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1
