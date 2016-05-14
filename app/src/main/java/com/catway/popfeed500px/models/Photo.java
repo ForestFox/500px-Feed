@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Photo {
 
+    @JsonProperty("name")
+    public String mName;
     @JsonProperty("camera")
     public String mCamera;
     @JsonProperty("id")
