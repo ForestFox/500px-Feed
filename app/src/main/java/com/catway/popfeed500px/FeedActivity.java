@@ -8,34 +8,71 @@ import android.view.MenuItem;
 import android.widget.GridView;
 
 import com.catway.popfeed500px.controllers.GridAdapter;
+import com.catway.popfeed500px.controllers.PageAdapter;
+import com.catway.popfeed500px.controllers.PageHolderLoader;
 import com.catway.popfeed500px.models.PageHolder;
 
 public class FeedActivity extends AppCompatActivity {
 
 
-    GridView gridView;
-    PageHolder pageHolder;
+    public GridView gridView;
+    public PageHolder pageHolder;
+    public GridAdapter gridAdapter;
+    public PageAdapter pageAdapter;
+
+    boolean launchedFirst = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("OnCreate", "OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
         gridView = (GridView) findViewById(R.id.grid_photo);
 
-        pageHolder = new PageHolder(getApplicationContext());
 
+        if(savedInstanceState == null)
+        {
+            launchedFirst = true;
+            pageHolder = new PageHolder(getApplicationContext());
+        }
+        else
+        {
+            launchedFirst = false;
+        }
+
+        Log.d("Instance", savedInstanceState == null? "null" : savedInstanceState.toString());
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("No matter", "No matter");
+    }
+
+
+    @Override
     public void onResume() {
+        Log.d("onResume", "onResume");
         super.onResume();
-        //pageHolder = PageHolderLoader.loadPageHolderFromJSON(this);
+        if(!launchedFirst)
+            pageHolder = PageHolderLoader.loadPageHolderFromJSON(this);
 
-        gridView.setAdapter(new GridAdapter(this, pageHolder));
+        updateGridAdapter();
+        pageAdapter = new PageAdapter(this);
+    }
+
+    public void updateGridAdapter() {
+        gridAdapter = new GridAdapter(this, pageHolder);
+        gridView.setAdapter(gridAdapter);
         gridView.setNumColumns(getGridColumnsNumber());
-
         gridView.setSelection(pageHolder.mPhotoPositionSelected);
-        
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        PageHolderLoader.savePageHolderToJSON(this, pageHolder);
+        Log.d("onPause", "onPause");
     }
 
     @Override

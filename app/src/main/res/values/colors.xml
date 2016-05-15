@@ -3,4 +3,7 @@
     <color name="primary">#26C6DA</color>
     <color name="primary_pressed">#80DEEA</color>
     <color name="ripple">#4DD0E1</color>
+
+    <color name="secondary">#BDBDBD</color>
+    <color name="secondary_pressed">#9E9E9E</color>
 </resources>

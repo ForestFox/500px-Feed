@@ -1,10 +1,14 @@
 package com.catway.popfeed500px;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -13,6 +17,8 @@ import com.catway.popfeed500px.models.PageHolder;
 import com.catway.popfeed500px.scrollgalleryview.MediaInfo;
 import com.catway.popfeed500px.scrollgalleryview.ScrollGalleryView;
 import com.melnykov.fab.FloatingActionButton;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,9 +41,8 @@ public class PhotoViewActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                scrollGalleryView.setCurrentItem(7);
 
-               /* Target target = new Target() {
+                Target target = new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                         Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -65,18 +70,16 @@ public class PhotoViewActivity extends AppCompatActivity {
                 pageHolder.mPhotoPositionSelected = scrollGalleryView.getCurrentItem();
                 Picasso.with(PhotoViewActivity.this)
                         .load(pageHolder.getCurrentPage().getPhotoWithIndex(pageHolder.mPhotoPositionSelected).mImageUrl)
-                        .into(target);*/
+                        .into(target);
 
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-
     public Uri getLocalBitmapUri(Bitmap bmp) {
         Uri bmpUri = null;
         try {
-
             File file =  new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
             FileOutputStream out = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.PNG, 90, out);

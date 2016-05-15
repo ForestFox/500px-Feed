@@ -32,7 +32,12 @@ public class PageHolder {
     }
 
     public Page loadPageWithNumber(Context c, int pageNumber) {
-        Page newPage = PageLoader.loadPageFromResponse(PageLoader.loadPageTestJSONFromAsset(c, "page1.json"));
+        Page newPage;
+        if(pageNumber == 1)
+            newPage = PageLoader.loadPageFromResponse(PageLoader.loadPageTestJSONFromAsset(c, "page1.json"));
+        else
+            newPage = PageLoader.loadPageFromResponse(PageLoader.loadPageTestJSONFromAsset(c, "page2.json"));
+
         mPages.put(newPage.mPageNumber, newPage);
         return newPage;
     }

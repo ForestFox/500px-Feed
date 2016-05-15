@@ -8,19 +8,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
         <Button
-            android:id="@+id/button_previous"
+            android:id="@+id/button_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="6dp"
             android:layout_weight="1"
-            android:text="Previous"/>
+            android:text="Back"
+            android:background="@drawable/button_back"/>
         <Button
-            android:id="@+id/button_next"
+            android:id="@+id/button_more"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="6dp"
             android:layout_weight="1"
-            android:text="Next"/>
+            android:text="More"
+            android:background="@drawable/button_more"/>
     </LinearLayout>
 
     <GridView
