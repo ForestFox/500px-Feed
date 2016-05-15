@@ -62,8 +62,15 @@ public class PageHolder {
         mMaxPage = maxPage;
     }
 
+    @JsonIgnore
     public boolean currentPageNotExists()
     {
         return mPages.get(mCurrentPageIndex) == null;
     }
+
+    public void deleteCurrentPage()
+    {
+        mPages.remove(mCurrentPageIndex);
+    }
+
 }

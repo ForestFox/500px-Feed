@@ -4,12 +4,14 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.GridView;
 
 import com.catway.popfeed500px.controllers.GridAdapter;
 import com.catway.popfeed500px.controllers.PageAdapter;
 import com.catway.popfeed500px.models.PageHolder;
+
 
 public class FeedActivity extends AppCompatActivity {
 
@@ -18,6 +20,8 @@ public class FeedActivity extends AppCompatActivity {
     public PageHolder pageHolder;
     public GridAdapter gridAdapter;
     public PageAdapter pageAdapter;
+
+    public boolean locked = false;
 
     boolean launchedFirst = false;
 
@@ -41,7 +45,7 @@ public class FeedActivity extends AppCompatActivity {
             launchedFirst = false;
         }
 
-        Log.d("Instance", savedInstanceState == null? "null" : savedInstanceState.toString());
+        Log.d("Instance", savedInstanceState == null ? "null" : savedInstanceState.toString());
     }
 
     @Override
@@ -87,13 +91,18 @@ public class FeedActivity extends AppCompatActivity {
         return getResources().getInteger(res);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_feed, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {r
+        int id = item.getItemId();
+        if(id == R.id.menu_refresh)
+        {
+            pageAdapter.refresh();
+        }
 
         return super.onOptionsItemSelected(item);
     }

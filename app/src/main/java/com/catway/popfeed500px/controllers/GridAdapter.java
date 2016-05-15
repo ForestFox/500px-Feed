@@ -1,6 +1,5 @@
 package com.catway.popfeed500px.controllers;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.catway.popfeed500px.FeedActivity;
 import com.catway.popfeed500px.PhotoViewActivity;
 import com.catway.popfeed500px.R;
 import com.catway.popfeed500px.models.PageHolder;
@@ -21,9 +21,9 @@ public class GridAdapter extends BaseAdapter
 {
     private PageHolder pageHolder;
     private LayoutInflater mInflater;
-    private Activity activity;
+    private FeedActivity activity;
     private Picasso picasso;
-    public GridAdapter(Activity activity, PageHolder pageHolder)
+    public GridAdapter(FeedActivity activity, PageHolder pageHolder)
     {
         this.pageHolder = pageHolder;
         this.activity = activity;
@@ -73,11 +73,14 @@ public class GridAdapter extends BaseAdapter
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pageHolder.mPhotoPositionSelected = position;
-                Log.d("GRIDADAPTER", "Current position = " + String.valueOf(pageHolder.mPhotoPositionSelected));
-                PageHolderLoader.savePageHolderToJSON(activity, pageHolder);
-                Intent intent = new Intent(activity, PhotoViewActivity.class);
-                activity.startActivity(intent);
+                if(activity.locked == false)
+                {
+                    pageHolder.mPhotoPositionSelected = position;
+                    Log.d("GRIDADAPTER", "Current position = " + String.valueOf(pageHolder.mPhotoPositionSelected));
+                    PageHolderLoader.savePageHolderToJSON(activity, pageHolder);
+                    Intent intent = new Intent(activity, PhotoViewActivity.class);
+                    activity.startActivity(intent);
+                }
             }
         });
 
