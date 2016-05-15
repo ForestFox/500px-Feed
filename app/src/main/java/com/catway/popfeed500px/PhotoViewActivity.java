@@ -1,14 +1,10 @@
 package com.catway.popfeed500px;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -17,8 +13,6 @@ import com.catway.popfeed500px.models.PageHolder;
 import com.catway.popfeed500px.scrollgalleryview.MediaInfo;
 import com.catway.popfeed500px.scrollgalleryview.ScrollGalleryView;
 import com.melnykov.fab.FloatingActionButton;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -41,7 +35,9 @@ public class PhotoViewActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Target target = new Target() {
+                scrollGalleryView.setCurrentItem(7);
+
+               /* Target target = new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                         Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
@@ -53,7 +49,7 @@ public class PhotoViewActivity extends AppCompatActivity {
                         Intent sendIntent = new Intent();
                         sendIntent.setAction(Intent.ACTION_SEND);
                         sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                        sendIntent.setType("image/*");
+                        sendIntent.setType("image*//*");
                         startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
                     }
 
@@ -61,18 +57,21 @@ public class PhotoViewActivity extends AppCompatActivity {
                     public void onBitmapFailed(Drawable errorDrawable) {
                         Log.e("BitmapException", "Bitmap Failed");
                     }
+
                     @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {}
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                    }
                 };
                 pageHolder.mPhotoPositionSelected = scrollGalleryView.getCurrentItem();
                 Picasso.with(PhotoViewActivity.this)
                         .load(pageHolder.getCurrentPage().getPhotoWithIndex(pageHolder.mPhotoPositionSelected).mImageUrl)
-                        .into(target);
+                        .into(target);*/
 
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
 
     public Uri getLocalBitmapUri(Bitmap bmp) {
         Uri bmpUri = null;
@@ -101,12 +100,15 @@ public class PhotoViewActivity extends AppCompatActivity {
         scrollGalleryView = (ScrollGalleryView) findViewById(R.id.scroll_gallery_view);
         scrollGalleryView.setPageHolder(pageHolder);
         scrollGalleryView
-                .setThumbnailSize(100)
+                .setThumbnailSize(getResources().getInteger(R.integer.thumbnail_size))
                 .setZoom(true)
                 .setFragmentManager(getSupportFragmentManager())
                 .addMedia(infos);
-
-        scrollGalleryView.setCurrentItem(pageHolder.mPhotoPositionSelected);
+        scrollGalleryView.postDelayed(new Runnable() {
+            public void run() {
+                    scrollGalleryView.setCurrentItem(pageHolder.mPhotoPositionSelected);
+            }
+        }, 30L);
     }
 
 

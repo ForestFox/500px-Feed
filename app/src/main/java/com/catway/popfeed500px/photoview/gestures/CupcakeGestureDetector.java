@@ -74,6 +74,7 @@ public class CupcakeGestureDetector implements GestureDetector {
                     mVelocityTracker.addMovement(ev);
                 } else {
                     LogManager.getLogger().i(LOG_TAG, "Velocity tracker is null");
+                    LogManager.getLogger().i(LOG_TAG, "Velocity tracker is null");
                 }
 
                 mLastTouchX = getActiveX(ev);

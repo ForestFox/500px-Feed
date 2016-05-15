@@ -146,6 +146,8 @@ public class ScrollGalleryView extends LinearLayout {
      */
     public ScrollGalleryView setCurrentItem(int i) {
         viewPager.setCurrentItem(i, false);
+        scroll(((LinearLayout) horizontalScrollView.getChildAt(0)).getChildAt(i));
+
         return this;
     }
 

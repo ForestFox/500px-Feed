@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="columns_portrait">4</integer>
+    <integer name="columns_landscape">8</integer>
+
+    <integer name="thumbnail_size">120</integer>
+</resources>

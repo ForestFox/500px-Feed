@@ -1,7 +1,9 @@
 package com.catway.popfeed500px;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.GridView;
 
@@ -21,6 +23,7 @@ public class FeedActivity extends AppCompatActivity {
         gridView = (GridView) findViewById(R.id.grid_photo);
 
         pageHolder = new PageHolder(getApplicationContext());
+
     }
 
     @Override
@@ -28,9 +31,27 @@ public class FeedActivity extends AppCompatActivity {
         super.onResume();
         //pageHolder = PageHolderLoader.loadPageHolderFromJSON(this);
 
-
         gridView.setAdapter(new GridAdapter(this, pageHolder));
-        gridView.setNumColumns(2);
+        gridView.setNumColumns(getGridColumnsNumber());
+
+        gridView.setSelection(pageHolder.mPhotoPositionSelected);
+        
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("OnDestroy", "OnDestroy");
+    }
+
+    public int getGridColumnsNumber()
+    {
+        int res;
+        if( getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            res = R.integer.columns_landscape;
+        else
+            res = R.integer.columns_portrait;
+        return getResources().getInteger(res);
     }
 
     @Override

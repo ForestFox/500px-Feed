@@ -24,8 +24,7 @@ public class ImageFragment extends Fragment {
     private HackyViewPager viewPager;
     private ImageView backgroundImage;
     private PhotoViewAttacher photoViewAttacher;
-    private TextView photoDescription;
-    private TextView photoCameraName;
+    private TextView photoAuthorCamera;
     public void setMediaInfo(Photo photo, MediaInfo mediaInfo) {
         mPhoto = photo;
         mMediaInfo = mediaInfo;
@@ -37,8 +36,7 @@ public class ImageFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.image_fragment, container, false);
         backgroundImage = (ImageView) rootView.findViewById(R.id.backgroundImage);
         viewPager = (HackyViewPager) getActivity().findViewById(R.id.viewPager);
-        photoDescription = (TextView) rootView.findViewById(R.id.photo_description);
-        photoCameraName = (TextView) rootView.findViewById(R.id.photo_camera_name);
+        photoAuthorCamera = (TextView) rootView.findViewById(R.id.photo_author_camera);
 
         if (savedInstanceState != null) {
             boolean isLocked = savedInstanceState.getBoolean(Constants.IS_LOCKED, false);
@@ -46,8 +44,9 @@ public class ImageFragment extends Fragment {
             backgroundImage.setImageBitmap((Bitmap) savedInstanceState.getParcelable(Constants.IMAGE));
             createViewAttacher(savedInstanceState);
         }
-        photoDescription.setText(mPhoto.mName + " (c) " + mPhoto.getUserName());
-        photoCameraName.setText(mPhoto.mCamera != null ? mPhoto.mCamera : "");
+        photoAuthorCamera.setText( "      " + mPhoto.mName
+                + " (c) " + mPhoto.getUserName()
+                + (mPhoto.mCamera != null ? " taken with " + mPhoto.mCamera : ""));
 
         loadImageToView();
 
