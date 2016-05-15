@@ -29,12 +29,14 @@ public class GridAdapter extends BaseAdapter
         this.activity = activity;
         mInflater = LayoutInflater.from(this.activity);
         picasso = Picasso.with(this.activity);
-        picasso.setIndicatorsEnabled(true);
+        //picasso.setIndicatorsEnabled(true);
     }
 
     @Override
     public int getCount() {
-        return pageHolder.getCurrentPage().getImageCount();
+        if(pageHolder != null)
+            return pageHolder.getCurrentPage().getImageCount();
+        else return 0;
     }
 
     @Override

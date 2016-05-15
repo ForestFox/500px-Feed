@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.catway.popfeed500px.controllers.PageHolderLoader;
 import com.catway.popfeed500px.models.PageHolder;
+import com.catway.popfeed500px.network.PicassoImageLoader;
 import com.catway.popfeed500px.scrollgalleryview.MediaInfo;
 import com.catway.popfeed500px.scrollgalleryview.ScrollGalleryView;
 import com.melnykov.fab.FloatingActionButton;
@@ -36,6 +37,7 @@ public class PhotoViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo_view);
 
+        pageHolder = PageHolderLoader.loadPageHolderFromJSON(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -75,26 +77,8 @@ public class PhotoViewActivity extends AppCompatActivity {
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
-    public Uri getLocalBitmapUri(Bitmap bmp) {
-        Uri bmpUri = null;
-        try {
-            File file =  new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
-            FileOutputStream out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.close();
-            bmpUri = Uri.fromFile(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bmpUri;
-    }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        pageHolder = PageHolderLoader.loadPageHolderFromJSON(this);
         images = pageHolder.getCurrentPage().getUrlList();
 
         List<MediaInfo> infos = new ArrayList<>(images.size());
@@ -109,9 +93,25 @@ public class PhotoViewActivity extends AppCompatActivity {
                 .addMedia(infos);
         scrollGalleryView.postDelayed(new Runnable() {
             public void run() {
-                    scrollGalleryView.setCurrentItem(pageHolder.mPhotoPositionSelected);
+                scrollGalleryView.setCurrentItem(pageHolder.mPhotoPositionSelected);
             }
         }, 30L);
+
+
+    }
+
+    public Uri getLocalBitmapUri(Bitmap bmp) {
+        Uri bmpUri = null;
+        try {
+            File file =  new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+            bmpUri = Uri.fromFile(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
     }
 
 

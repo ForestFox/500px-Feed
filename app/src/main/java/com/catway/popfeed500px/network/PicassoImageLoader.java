@@ -1,8 +1,9 @@
-package com.catway.popfeed500px;
+package com.catway.popfeed500px.network;
 
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.catway.popfeed500px.R;
 import com.catway.popfeed500px.scrollgalleryview.loader.MediaLoader;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;

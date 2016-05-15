@@ -3,6 +3,7 @@ package com.catway.popfeed500px.controllers;
 import android.content.Context;
 
 import com.catway.popfeed500px.models.Page;
+import com.catway.popfeed500px.network.PageRequest;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,8 +11,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class PageLoader {
-    public static Page loadPageFromResponse(String jsonPageResponse) {
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
+
+public class PageLoader implements Callback {
+    PageLoadedListener pageLoadedListener;
+
+    private static Page loadPageFromResponse(String jsonPageResponse) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try {
@@ -41,5 +48,30 @@ public class PageLoader {
         return json;
     }
 
+    public void loadPageWithNumber(int pageNum, final PageLoadedListener pageLoadedListener)
+    {
+        this.pageLoadedListener = pageLoadedListener;
+        try {
+            PageRequest.run(pageNum, this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public void onFailure(Call call, IOException e) {
+        e.printStackTrace();
+    }
+
+    @Override
+    public void onResponse(Call call, Response response) throws IOException {
+        if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+        String jsonPage = response.body().string();
+        final Page page = loadPageFromResponse(jsonPage);
+
+        pageLoadedListener.onPageLoaded(page);
+
+
+    }
 }

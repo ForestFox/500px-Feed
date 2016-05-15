@@ -104,6 +104,5 @@
     <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
     <orderEntry type="library" exported="" name="jackson-annotations-2.7.4" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-21.0.3" level="project" />
-    <orderEntry type="library" exported="" name="retrofit-2.0.2" level="project" />
   </component>
 </module>

@@ -1,8 +1,5 @@
 package com.catway.popfeed500px.models;
 
-import android.content.Context;
-
-import com.catway.popfeed500px.controllers.PageLoader;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -13,60 +10,60 @@ public class PageHolder {
     @JsonProperty("photo_position_selected")
     public int mPhotoPositionSelected;
     @JsonProperty("current_page")
-    private int mCurrentPage = 1;
+    private int mCurrentPageIndex = 1;
     @JsonIgnore
     private int mMinPage = 1;
-    @JsonIgnore
-    Context c;
     @JsonProperty("max_page")
-    private int mMaxPage;
+    private int mMaxPage = 1000;
     @JsonProperty("pages")
     private HashMap<Integer, Page> mPages = new HashMap<>();
 
     public PageHolder(){}
 
-    public PageHolder(Context c) {
-        this.c = c;
-        mMaxPage = 1000;
-        loadPageWithNumber(c, mMinPage);
-    }
-
-    public Page loadPageWithNumber(Context c, int pageNumber) {
-        Page newPage;
-        if(pageNumber == 1)
-            newPage = PageLoader.loadPageFromResponse(PageLoader.loadPageTestJSONFromAsset(c, "page1.json"));
-        else
-            newPage = PageLoader.loadPageFromResponse(PageLoader.loadPageTestJSONFromAsset(c, "page2.json"));
-
-        mPages.put(newPage.mPageNumber, newPage);
-        return newPage;
-    }
-
     public boolean drawPrevButton()
     {
-        return mCurrentPage == mMinPage ? false:true;
+        return mCurrentPageIndex == mMinPage ? false:true;
     }
 
     public boolean drawNextButton()
     {
-        return mCurrentPage == mMaxPage ? false:true;
+        return mCurrentPageIndex == mMaxPage ? false:true;
     }
 
     public void moveNext()
     {
-        mCurrentPage ++;
-        loadPageWithNumber(c,mCurrentPage);
+        mCurrentPageIndex++;
     }
 
     public void movePrev()
     {
-        mCurrentPage --;
-        loadPageWithNumber(c,mCurrentPage);
+        mCurrentPageIndex--;
+    }
+
+    @JsonIgnore
+    public void setPage(Page p)
+    {
+        mPages.put(p.mPageNumber, p);
     }
 
     @JsonIgnore
     public Page getCurrentPage()
     {
-        return mPages.get(mCurrentPage);
+        return mPages.get(mCurrentPageIndex);
+    }
+
+    @JsonIgnore
+    public int getCurrentPageIndex() {
+        return mCurrentPageIndex;
+    }
+
+    @JsonIgnore
+    public void setMaxPage(int maxPage) {
+        mMaxPage = maxPage;
+    }
+
+    public boolean currentPageNotExists()
+    {
+        return mPages.get(mCurrentPageIndex) == null;
     }
 }

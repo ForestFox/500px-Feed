@@ -9,7 +9,6 @@ import android.widget.GridView;
 
 import com.catway.popfeed500px.controllers.GridAdapter;
 import com.catway.popfeed500px.controllers.PageAdapter;
-import com.catway.popfeed500px.controllers.PageHolderLoader;
 import com.catway.popfeed500px.models.PageHolder;
 
 public class FeedActivity extends AppCompatActivity {
@@ -29,11 +28,13 @@ public class FeedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feed);
         gridView = (GridView) findViewById(R.id.grid_photo);
 
-
+        pageHolder = new PageHolder();
+        gridAdapter = new GridAdapter(this, pageHolder);
+        pageAdapter = new PageAdapter(this);
         if(savedInstanceState == null)
         {
             launchedFirst = true;
-            pageHolder = new PageHolder(getApplicationContext());
+            pageAdapter.loadNewPage();
         }
         else
         {
@@ -49,20 +50,15 @@ public class FeedActivity extends AppCompatActivity {
         outState.putSerializable("No matter", "No matter");
     }
 
-
     @Override
     public void onResume() {
         Log.d("onResume", "onResume");
         super.onResume();
         if(!launchedFirst)
-            pageHolder = PageHolderLoader.loadPageHolderFromJSON(this);
-
-        updateGridAdapter();
-        pageAdapter = new PageAdapter(this);
+            pageAdapter.restore();
     }
 
     public void updateGridAdapter() {
-        gridAdapter = new GridAdapter(this, pageHolder);
         gridView.setAdapter(gridAdapter);
         gridView.setNumColumns(getGridColumnsNumber());
         gridView.setSelection(pageHolder.mPhotoPositionSelected);
@@ -70,15 +66,15 @@ public class FeedActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
-        super.onPause();
-        PageHolderLoader.savePageHolderToJSON(this, pageHolder);
         Log.d("onPause", "onPause");
+        super.onPause();
+        pageAdapter.save();
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         Log.d("OnDestroy", "OnDestroy");
+        super.onDestroy();
     }
 
     public int getGridColumnsNumber()
