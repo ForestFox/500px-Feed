@@ -39,7 +39,6 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
     private Fragment loadImageFragment(MediaInfo mediaInfo, int position)
     {
-        mPageHolder.mPhotoPositionSelected = position;
         ImageFragment fragment = new ImageFragment();
         fragment.setMediaInfo(mPageHolder.getCurrentPage().getPhotoWithIndex(position), mediaInfo);
         Bundle bundle = new Bundle();
